@@ -25,6 +25,7 @@ export const portfolioData = {
     {
       number: '01',
       title: 'ResumeForge AI',
+      image: '/projects/resumeforge-ai.png',
       type: 'Product / AI',
       description: 'An AI-powered resume builder that helps candidates create, improve, and optimize professional resumes through intelligent suggestions.',
       tech: ['React', 'Node.js', 'Express', 'MongoDB'],
@@ -45,6 +46,8 @@ export const portfolioData = {
     {
       number: '02',
       title: 'Feed Forward',
+      image: '/projects/feed-forward.png',
+      imageFit: 'contain',
       type: 'MERN application',
       description: 'A MERN application focused on helping reduce food waste through a practical digital experience for managing and improving food usage.',
       tech: ['React', 'Node.js', 'Express', 'MongoDB'],
@@ -65,6 +68,7 @@ export const portfolioData = {
     {
       number: '03',
       title: 'MERN Expense Tracker',
+      image: '/projects/mern-expense-tracker.png',
       type: 'Full-stack application',
       description: 'A focused financial tracking application for managing income, expenses, transactions, and everyday financial activity.',
       tech: ['React', 'Express', 'MongoDB'],
@@ -84,6 +88,7 @@ export const portfolioData = {
     {
       number: '04',
       title: 'Amazon Product Review Analysis',
+      image: '/projects/amazon-review-analysis.png',
       type: 'Data / Python',
       description: 'A sentiment analysis application that turns customer reviews into useful product insights with Python and machine learning.',
       tech: ['Python', 'Flask', 'Machine Learning'],
@@ -100,6 +105,10 @@ export const portfolioData = {
         links: { github: null, liveDemo: null },
       },
     },
+  ],
+  achievements: [
+    { id: 'hackathons', count: '4+', title: 'Hackathons', detail: 'Participated in 4+ hackathons.', label: 'Activities / Participation' },
+    { id: 'certifications', count: '4+', title: 'Certifications', detail: 'Earned 4+ certifications.', label: 'Achievements / Learning' },
   ],
   experience: [
     {
