@@ -273,6 +273,8 @@ input:focus, textarea:focus { border-color: var(--orange); }
 @keyframes contact-packet { 0%, 100% { left: 0; opacity: .25; } 50% { left: calc(100% - 32px); opacity: .85; } }
 .contact-form .form-terminal { color: var(--orange); }
 .contact-form .button-primary { min-width: 178px; }
+.contact-form .button-primary:disabled { opacity: .65; cursor: wait; }
+.contact-form small a { text-decoration: underline; }
 .footer { min-height: 92px; gap: 28px; }
 .footer-brand > span { border-color: var(--orange); color: var(--orange); }
 .footer-brand strong, .footer-brand small { font-family: var(--mono); text-transform: uppercase; letter-spacing: .7px; }

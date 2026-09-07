@@ -1,5 +1,18 @@
 # React + Vite
 
+## Contact form setup
+
+The contact form posts to `/api/contact`, which sends email through [Resend's email API](https://resend.com/docs/api-reference/emails/send-email). The endpoint runs in Vite development/preview and as a Vercel serverless function in production. Static-only hosting needs a separate server for this endpoint.
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `RESEND_API_KEY` to your Resend key and `CONTACT_FROM_EMAIL` to an allowed sender on your verified Resend domain. Set `CONTACT_TO_EMAIL` to your receiving inbox (defaults to the portfolio email).
+3. Restart `npm run dev`. For Vercel, add the same server environment variables in the project settings and redeploy.
+4. Submit a test message and check the receiving inbox and Resend delivery logs. An API success confirms acceptance, not inbox delivery.
+
+Keep the key server-side; never use a `VITE_` prefix or commit `.env.local`. Without configuration, the form shows an error and offers a direct email link. Failed submissions preserve the visitor's text. The hidden website field filters basic bot submissions; configure rate limiting in your hosting platform for public traffic.
+
+Run endpoint checks with `node --test tests/contact.test.js`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

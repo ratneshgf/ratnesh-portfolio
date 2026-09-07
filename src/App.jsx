@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion'
-import { ArrowUpRight, Check, ChevronDown, Code2, Database, ExternalLink, Globe2, Layers3, Mail, Menu, MousePointer2, Network, Send, Terminal, X } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronDown, Code2, Database, ExternalLink, Globe2, Layers3, Mail, Menu, MousePointer2, Network, Terminal, X } from 'lucide-react'
 import { portfolioData } from './data/portfolioData'
 import BootIntro from './components/BootIntro'
 import CommandPalette from './components/CommandPalette'
@@ -12,6 +12,7 @@ import ArchitectureDiagram from './components/ArchitectureDiagram'
 import ProjectRevealObserver from './components/ProjectRevealObserver'
 import ProjectScreenshot from './components/ProjectScreenshot'
 import Achievements from './components/Achievements'
+import ContactForm from './components/ContactForm'
 import LiveCodingStats from './components/coding/LiveCodingStats'
 import { usePerformanceMode } from './hooks/usePerformanceMode.jsx'
 import './App.css'
@@ -155,7 +156,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const [scrolled, setScrolled] = useState(false)
-  const [sent, setSent] = useState(false)
   const [selectedProject, setSelectedProject] = useState(null)
   const [localTime, setLocalTime] = useState(() => new Date())
   const { enableCursor, enableTilt, simplified } = usePerformanceMode()
@@ -168,7 +168,6 @@ function App() {
   useEffect(() => { const clock = window.setInterval(() => setLocalTime(new Date()), 60000); return () => window.clearInterval(clock) }, [])
   useEffect(() => { const cards = document.querySelectorAll('.project-card'); const cleanups = [...cards].map((card, index) => { card.tabIndex = 0; card.setAttribute('role', 'button'); card.setAttribute('aria-label', `Open case study for ${portfolioData.projects[index].title}`); const open = (event) => { if (event.target.closest('a, button')) return; setSelectedProject(portfolioData.projects[index]) }; const keydown = (event) => { if (event.target.closest('a, button')) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelectedProject(portfolioData.projects[index]) } }; card.addEventListener('click', open); card.addEventListener('keydown', keydown); return () => { card.removeEventListener('click', open); card.removeEventListener('keydown', keydown) } }); return () => cleanups.forEach((cleanup) => cleanup()) }, [])
   const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMenuOpen(false) }
-  const handleSubmit = (event) => { event.preventDefault(); setSent(true); event.currentTarget.reset() }
 
   return <div className={`site-shell ${simplified ? 'performance-simplified' : ''}`}>
     <BootIntro />
@@ -191,7 +190,7 @@ function App() {
       <section id="experience" className="section-wrap experience-section"><SectionHeading eyebrow="04 / build history" title={<>Learning by<br /><em>shipping.</em></>} /><div className="experience-grid"><div className="timeline">{portfolioData.experience.map((item, index) => <motion.article initial="hidden" whileInView="visible" variants={reveal} viewport={{ once: true }} key={item.title} className="timeline-item"><div className="timeline-marker">0{index + 1}</div><div className="timeline-body"><span className="eyebrow">{item.date}</span><h3>{item.title}</h3><p className="timeline-company">{item.company}</p><ul>{item.details.map((detail) => <li key={detail}><Check size={14} />{detail}</li>)}</ul></div></motion.article>)}</div><div className="education-card"><span className="eyebrow">Education module</span><div className="education-icon"><Code2 size={22} /></div><h3>{portfolioData.education.degree}</h3><p>{portfolioData.education.school}</p><small>{portfolioData.education.detail}</small><div className="card-index">ED / ACTIVE</div></div></div></section>
       <section className="section-wrap coding-section"><div className="coding-intro"><SectionHeading eyebrow="05 / personality module" title={<>Beyond<br /><em>the code.</em></>} intro="The patterns I practise away from the editor still shape the way I design, debug, and build." /><div className="coding-links"><a href={portfolioData.social.leetcode} target="_blank" rel="noreferrer">LeetCode <ExternalLink size={14} /></a><a href={portfolioData.social.github} target="_blank" rel="noreferrer">GitHub <ExternalLink size={14} /></a></div></div><div className="topic-cloud">{portfolioData.coding.map((topic, index) => <span key={topic} className={index % 3 === 0 ? 'topic-accent' : ''}>{topic}</span>)}</div><LiveCodingStats /></section>
       <Achievements />
-      <section id="contact" className="section-wrap contact-section"><div className="contact-copy"><SectionHeading eyebrow="07 / initiate contact" title={<>Let's build something<br /><em>meaningful.</em></>} intro="I'm open to full-stack development opportunities, internships, collaborations, and interesting software projects." /><div className="contact-details"><a href={`mailto:${portfolioData.personal.email}`}><Mail size={17} />{portfolioData.personal.email}</a><a href={portfolioData.social.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} />LinkedIn</a><a href={portfolioData.social.github} target="_blank" rel="noreferrer"><Github size={17} />GitHub</a></div></div><form className="contact-form" onSubmit={handleSubmit}><div className="form-terminal">secure terminal · open channel</div><label>Name<input required name="name" placeholder="your name" /></label><label>Email<input required type="email" name="email" placeholder="you@company.com" /></label><label>Message<textarea required name="message" rows="4" placeholder="tell me about your idea..." /></label><button className="button button-primary" type="submit">{sent ? 'Transmission ready' : 'Send transmission'} <Send size={15} /></button><small>{sent ? 'Thanks. This frontend-only form is ready to connect to an email service.' : 'Frontend-only contact form. No message is sent yet.'}</small></form></section>
+      <section id="contact" className="section-wrap contact-section"><div className="contact-copy"><SectionHeading eyebrow="07 / initiate contact" title={<>Let's build something<br /><em>meaningful.</em></>} intro="I'm open to full-stack development opportunities, internships, collaborations, and interesting software projects." /><div className="contact-details"><a href={`mailto:${portfolioData.personal.email}`}><Mail size={17} />{portfolioData.personal.email}</a><a href={portfolioData.social.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} />LinkedIn</a><a href={portfolioData.social.github} target="_blank" rel="noreferrer"><Github size={17} />GitHub</a></div></div><ContactForm email={portfolioData.personal.email} /></section>
     </main>
     <footer className="footer section-wrap"><div className="footer-brand"><span>R</span><div><strong>RATNESH.LAB</strong><small>FULL STACK DEVELOPER</small></div></div><div className="footer-status"><span><i /> SYSTEM ONLINE</span><small>LOCAL / {localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small></div><div className="footer-links"><a href={portfolioData.social.github}>GitHub</a><a href={portfolioData.social.linkedin}>LinkedIn</a><a href={portfolioData.social.leetcode}>LeetCode</a><a href={`mailto:${portfolioData.personal.email}`}>Email</a><a className="back-top" href="#home">Back to top <ArrowUpRight size={12} /></a></div><span className="built-with">© {new Date().getFullYear()}</span></footer>
     <AnimatePresence>{selectedProject && <ProjectCaseStudy project={selectedProject} onClose={() => setSelectedProject(null)} />}</AnimatePresence>
