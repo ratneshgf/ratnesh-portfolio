@@ -107,8 +107,14 @@ export const portfolioData = {
     },
   ],
   achievements: [
-    { id: 'hackathons', count: '4+', title: 'Hackathons', detail: 'Participated in 4+ hackathons.', label: 'Activities / Participation' },
-    { id: 'certifications', count: '4+', title: 'Certifications', detail: 'Earned 4+ certifications.', label: 'Achievements / Learning' },
+    { id: 'hackathons', count: '4+', title: 'Hackathons', detail: 'Participated in 4+ hackathons.', label: 'Activities / Participation', events: ['Smart India Hackathon 2025', 'Zynk Hackathon', 'AceHack 2.0 Hackathon', 'Yukti Hackathon'] },
+    { id: 'certifications', count: '5', title: 'Certifications', detail: 'Earned 5 certifications.', label: 'Achievements / Learning', events: [
+      'Full Stack Development with MERN — Nasscom Foundation',
+      'Deloitte Data Analytics Virtual Experience — Deloitte (Forage)',
+      'Tata GenAI-Powered Data Analytics — Tata (Forage)',
+      'AWS Solutions Architect Job Simulation — AWS (Forage)',
+      'EduSkills TechCamp on Google Android Development — EduSkills Foundation',
+    ] },
   ],
   experience: [
     {

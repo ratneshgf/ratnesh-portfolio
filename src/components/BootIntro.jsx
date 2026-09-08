@@ -48,7 +48,7 @@ export default function BootIntro() {
           <div className="boot-log">{bootLines.map((line, index) => <motion.div key={line} initial={{ opacity: 0, x: -8 }} animate={index < lineCount ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }} transition={{ duration: .24 }}><span>{index < lineCount ? 'OK' : '--'}</span>{line}</motion.div>)}</div>
           <div className="boot-progress" aria-hidden="true"><motion.span animate={{ width: `${Math.min(lineCount / bootLines.length, 1) * 100}%` }} transition={{ duration: .3, ease: 'easeOut' }} /></div>
         </div>
-        <div className="boot-bottomline"><span>BUILD / 2026</span><button type="button" onClick={finish}>Skip intro <b>↗</b></button></div>
+        <div className="boot-bottomline"><span>BUILD / 2026</span><button type="button" onClick={finish}>Skip intro</button></div>
       </div>
     </motion.div>}
   </AnimatePresence>

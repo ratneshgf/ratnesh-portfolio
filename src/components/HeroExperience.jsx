@@ -60,7 +60,7 @@ export default function HeroExperience({ onProjects, onContact }) {
       <h1><span>RATNESH</span><strong>SINGH CHAUHAN</strong></h1>
       <RotatingRole roles={portfolioData.personal.roles} />
       <p className="hero-statement">Engineering scalable full-stack applications and modern digital experiences with clean, reliable code.</p>
-      <div className="hero-experience-actions"><button type="button" className="hero-enter" onClick={onProjects}>&gt;_ ENTER THE LAB <ChevronDown size={16} /></button><button type="button" className="hero-contact" onClick={onContact}><Mail size={15} /> INITIATE CONTACT</button></div>
+      <div className="hero-experience-actions"><button type="button" className="hero-enter" onClick={onProjects}>ENTER THE LAB <ChevronDown size={16} /></button><button type="button" className="hero-contact" onClick={onContact}><Mail size={15} /> INITIATE CONTACT</button></div>
     </div>
     <motion.div className="hero-portrait"
       initial={reducedMotion ? false : { opacity: 0, x: 30, scale: .98 }}
