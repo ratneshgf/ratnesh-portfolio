@@ -7,7 +7,6 @@ import BootIntro from './components/BootIntro'
 import CommandPalette from './components/CommandPalette'
 import SkillConstellation from './components/SkillConstellation'
 import ScrollDepth from './components/ScrollDepth'
-import InteractiveTerminal from './components/InteractiveTerminal'
 import RecruiterQuickView from './components/RecruiterQuickView'
 import ProjectWallet from './components/ProjectWallet'
 import ProjectRevealObserver from './components/ProjectRevealObserver'
@@ -126,7 +125,30 @@ function App() {
   const cursorX = useMotionValue(-100); const cursorY = useMotionValue(-100)
   const smoothX = useSpring(cursorX, { stiffness: 450, damping: 32 }); const smoothY = useSpring(cursorY, { stiffness: 450, damping: 32 })
 
-  useEffect(() => { const onScroll = () => { setScrolled(window.scrollY > 24); const current = navItems.find((id) => { const section = document.getElementById(id); return section && window.scrollY >= section.offsetTop - 180 }); if (current) setActiveSection(current) }; const onMove = (event) => { cursorX.set(event.clientX); cursorY.set(event.clientY) }; window.addEventListener('scroll', onScroll, { passive: true }); if (enableCursor) window.addEventListener('mousemove', onMove); onScroll(); return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('mousemove', onMove) } }, [cursorX, cursorY, enableCursor])
+  useEffect(() => {
+    let frame = 0
+    const updateNavigation = () => {
+      frame = 0
+      setScrolled(window.scrollY > 24)
+      const current = [...navItems].reverse().find((id) => {
+        const section = document.getElementById(id)
+        return section && section.getBoundingClientRect().top <= 180
+      })
+      setActiveSection(current || 'home')
+    }
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateNavigation)
+    }
+    const onMove = (event) => { cursorX.set(event.clientX); cursorY.set(event.clientY) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    if (enableCursor) window.addEventListener('mousemove', onMove)
+    updateNavigation()
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('mousemove', onMove)
+    }
+  }, [cursorX, cursorY, enableCursor])
   useEffect(() => { const targets = document.querySelectorAll('.project-foot > a, .coding-links a, .contact-details a, .footer-links a'); const cleanups = [...targets].map((target) => bindMagneticTarget(target, enableCursor)); return () => cleanups.forEach((cleanup) => cleanup()) }, [enableCursor])
   useEffect(() => { const clock = window.setInterval(() => setLocalTime(new Date()), 60000); return () => window.clearInterval(clock) }, [])
   const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMenuOpen(false) }
@@ -137,11 +159,10 @@ function App() {
     <SkillConstellation />
     <ScrollDepth />
     <ProjectRevealObserver />
-    <InteractiveTerminal social={portfolioData.social} resume={portfolioData.personal.resume} />
     <RecruiterQuickView portfolio={portfolioData} />
     <Suspense fallback={null}><TechUniverse /></Suspense>
     {enableCursor && <motion.div className="custom-cursor" style={{ x: smoothX, y: smoothY }} aria-hidden="true"><span /></motion.div>}<div className="noise" aria-hidden="true" />
-    <header className={`navbar ${scrolled ? 'is-scrolled' : ''}`}><button className="brand" onClick={() => scrollTo('home')} aria-label="Go to home"><span>R</span> ratnesh<span className="brand-dot">.</span>dev</button><nav className={menuOpen ? 'mobile-open' : ''}>{navItems.map((item) => <button key={item} className={activeSection === item ? 'active' : ''} onClick={() => scrollTo(item)}>{item}</button>)}<Magnetic as="a" className="resume-link" href={portfolioData.personal.resume} target="_blank" rel="noreferrer">Resume <ArrowUpRight size={14} /></Magnetic></nav><button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X /> : <Menu />}</button></header>
+    <header className={`navbar ${scrolled ? 'is-scrolled' : ''}`}><button className="brand" onClick={() => scrollTo('home')} aria-label="Go to home"><span>R</span> ratnesh<span className="brand-dot">.</span>dev</button><nav id="main-navigation" aria-label="Main navigation" className={menuOpen ? 'mobile-open' : ''}>{navItems.map((item) => <button key={item} className={activeSection === item ? 'active' : ''} aria-current={activeSection === item ? 'location' : undefined} onClick={() => scrollTo(item)}>{item}</button>)}<Magnetic as="a" className="resume-link" href={portfolioData.personal.resume} target="_blank" rel="noreferrer">Resume <ArrowUpRight size={14} /></Magnetic></nav><button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen} aria-controls="main-navigation">{menuOpen ? <X /> : <Menu />}</button></header>
     <main>
       <section id="home" className="hero section-wrap"><Suspense fallback={null}><HeroExperience onProjects={() => scrollTo('about')} onContact={() => scrollTo('contact')} /></Suspense><div className="hero-copy"><motion.div initial="hidden" animate="visible" variants={reveal} className="availability"><span /> {portfolioData.personal.availability}</motion.div><motion.p initial="hidden" animate="visible" variants={reveal} className="hero-kicker">Hello, I'm <span>Ratnesh Singh Chauhan</span></motion.p><motion.h1 initial="hidden" animate="visible" variants={reveal}>I build digital<br /><em>experiences</em> that matter.</motion.h1><motion.p initial="hidden" animate="visible" variants={reveal} className="hero-description">{portfolioData.personal.bio}</motion.p><motion.div initial="hidden" animate="visible" variants={reveal} className="hero-actions"><Magnetic as="button" className="button button-primary" onClick={() => scrollTo('projects')}>View projects <ArrowUpRight size={16} /></Magnetic><Magnetic as="a" className="text-link" href={`mailto:${portfolioData.personal.email}`}>Let's talk <span>↗</span></Magnetic></motion.div><motion.div initial="hidden" animate="visible" variants={reveal} className="hero-socials"><Magnetic as="a" href={portfolioData.social.github} target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub</Magnetic><Magnetic as="a" href={portfolioData.social.linkedin} target="_blank" rel="noreferrer"><Network size={17} /> LinkedIn</Magnetic><Magnetic as="a" href={portfolioData.social.leetcode} target="_blank" rel="noreferrer"><Code2 size={17} /> LeetCode</Magnetic></motion.div></div><motion.div initial={{ opacity: 0, scale: .92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="hero-visual"><div className="visual-grid" /><div className="visual-orbit orbit-one" /><div className="visual-orbit orbit-two" /><div className="visual-core"><span>01</span><strong>BUILD</strong><small>with intention</small></div><div className="code-fragment fragment-one">const idea = <b>"worth building"</b></div><div className="code-fragment fragment-two">ship<span>()</span>;</div><div className="visual-caption"><span>01 — 04</span><span>selected<br />signal</span></div><div className="hero-hud"><span>SYS / ONLINE</span><b>REACT + NODE</b><small>build loop active</small></div></motion.div><button className="scroll-cue" onClick={() => scrollTo('about')}><MousePointer2 size={14} /> Scroll to explore <ChevronDown size={14} /></button></section>
       <div className="lab-strip section-wrap" aria-label="Portfolio system status"><span><i /> portfolio system online</span><span>stack / MERN + Python</span><span>mode / learn / ship</span><span>location / {portfolioData.personal.location}</span></div>

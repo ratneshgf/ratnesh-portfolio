@@ -8,7 +8,7 @@ export default endpoint(async () => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Referer: 'https://leetcode.com', 'User-Agent': 'portfolio-coding-stats' },
     body: JSON.stringify({
-      query: 'query Stats($username: String!) { matchedUser(username: $username) { profile { ranking } submitStatsGlobal { acSubmissionNum { difficulty count } } } }',
+      query: 'query Stats($username: String!) { matchedUser(username: $username) { profile { ranking } badges { id displayName } submitStatsGlobal { acSubmissionNum { difficulty count } } } }',
       variables: { username: profiles.leetcode.username },
     }),
   })
@@ -18,5 +18,5 @@ export default endpoint(async () => {
   if (!Array.isArray(rows)) throw new Error('Invalid LeetCode response')
   const solved = Object.fromEntries(['All', 'Easy', 'Medium', 'Hard'].map((difficulty) => [difficulty.toLowerCase(), count(rows.find((row) => row.difficulty === difficulty)?.count)]))
   if (Object.values(solved).some((value) => value === null) || solved.all !== solved.easy + solved.medium + solved.hard) throw new Error('Incomplete LeetCode counts')
-  return { ...solved, ranking: count(user.profile?.ranking) }
+  return { ...solved, ranking: count(user.profile?.ranking), badges: Array.isArray(user.badges) ? user.badges.length : null }
 })
