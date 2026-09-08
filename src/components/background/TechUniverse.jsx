@@ -1,3 +1,4 @@
+import { sceneColors } from '../../theme.js'
 import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -37,8 +38,8 @@ function NetworkField({ reduced, mobile, networkNodes }) {
     return geometry
   }, [activeLinks])
   const nodeGeometry = useMemo(() => new THREE.SphereGeometry(mobile ? 0.045 : 0.065, 8, 8), [mobile])
-  const nodeMaterial = useMemo(() => new THREE.MeshBasicMaterial({ color: '#62e6e1', transparent: true, opacity: 0.78 }), [])
-  const lineMaterial = useMemo(() => new THREE.LineBasicMaterial({ color: '#3e7895', transparent: true, opacity: mobile ? 0.19 : 0.28 }), [mobile])
+  const nodeMaterial = useMemo(() => new THREE.MeshBasicMaterial({ color: sceneColors['text-secondary'], transparent: true, opacity: 0.78 }), [])
+  const lineMaterial = useMemo(() => new THREE.LineBasicMaterial({ color: sceneColors['red-dark'], transparent: true, opacity: mobile ? 0.19 : 0.28 }), [mobile])
 
   useFrame((state) => {
     if (!groupRef.current || reduced) return
@@ -64,7 +65,7 @@ function DataPacket({ link, phase }) {
   })
   return <mesh ref={ref} position={from}>
     <sphereGeometry args={[0.1, 6, 6]} />
-    <meshBasicMaterial color="#b78aff" transparent opacity={0.82} />
+    <meshBasicMaterial color={sceneColors['green-dark']} transparent opacity={0.82} />
   </mesh>
 }
 
@@ -79,11 +80,11 @@ function WireframeObjects({ reduced, mobile }) {
   return <>
     <mesh ref={leftRef} position={[-6.8, 2.3, -4.8]} scale={mobile ? 0.7 : 1}>
       <icosahedronGeometry args={[1.2, 2]} />
-      <meshBasicMaterial color="#7967b7" wireframe transparent opacity={0.18} />
+      <meshBasicMaterial color={sceneColors['red-deep']} wireframe transparent opacity={0.18} />
     </mesh>
     {!mobile && <mesh ref={rightRef} position={[6.4, -2.3, -5.5]} scale={1.15}>
       <sphereGeometry args={[1.35, 16, 10]} />
-      <meshBasicMaterial color="#397c91" wireframe transparent opacity={0.14} />
+      <meshBasicMaterial color={sceneColors['red-dark']} wireframe transparent opacity={0.14} />
     </mesh>}
   </>
 }
@@ -108,7 +109,7 @@ function ParticleField({ reduced, particleCount, mobile }) {
   })
   return <points ref={ref}>
     <bufferGeometry><bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} /></bufferGeometry>
-    <pointsMaterial color="#7ba4c7" size={mobile ? 0.028 : 0.04} transparent opacity={0.32} sizeAttenuation />
+    <pointsMaterial color={sceneColors['text-secondary']} size={mobile ? 0.028 : 0.04} transparent opacity={0.32} sizeAttenuation />
   </points>
 }
 

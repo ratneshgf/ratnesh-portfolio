@@ -1,3 +1,5 @@
 #root { min-height: 100vh; }
-::selection { color: #161710; background: #d9ee72; }
-:focus-visible { outline: 2px solid #d9ee72; outline-offset: 4px; }
+::selection { color: var(--text-primary); background: var(--red-deep); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+html { scrollbar-color: var(--red-deep) var(--bg-primary); }

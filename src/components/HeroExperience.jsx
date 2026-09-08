@@ -1,3 +1,4 @@
+import { sceneColors } from '../theme.js'
 import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ChevronDown, Command, Mail } from 'lucide-react'
@@ -7,12 +8,12 @@ import { portfolioData } from '../data/portfolioData'
 import RotatingRole from './ui/RotatingRole'
 
 const objects = [
-  { type: 'torus', position: [-3.4, 2.2, -1.2], color: '#ed6ca8', scale: 1.3, speed: .18, phase: .2 },
-  { type: 'sphere', position: [-1.4, .35, -2.6], color: '#9278ff', scale: 1.45, speed: .1, phase: 1.1 },
-  { type: 'icosa', position: [1.2, 2.3, -.5], color: '#5be2ed', scale: .9, speed: .22, phase: 2.2 },
-  { type: 'octa', position: [4.5, 2.55, -2.2], color: '#ae8bff', scale: .72, speed: .14, phase: .8 },
-  { type: 'dodeca', position: [3.6, -.8, -1.2], color: '#dc75bd', scale: .78, speed: .2, phase: 1.7 },
-  { type: 'icosa', position: [1.1, -2.4, -3.1], color: '#5dc9e5', scale: .55, speed: .12, phase: 2.8 },
+  { type: 'torus', position: [-3.4, 2.2, -1.2], color: sceneColors['red-deep'], scale: 1.3, speed: .18, phase: .2 },
+  { type: 'sphere', position: [-1.4, .35, -2.6], color: sceneColors['red-dark'], scale: 1.45, speed: .1, phase: 1.1 },
+  { type: 'icosa', position: [1.2, 2.3, -.5], color: sceneColors['text-muted'], scale: .9, speed: .22, phase: 2.2 },
+  { type: 'octa', position: [4.5, 2.55, -2.2], color: sceneColors['red-deep'], scale: .72, speed: .14, phase: .8 },
+  { type: 'dodeca', position: [3.6, -.8, -1.2], color: sceneColors['red-dark'], scale: .78, speed: .2, phase: 1.7 },
+  { type: 'icosa', position: [1.1, -2.4, -3.1], color: sceneColors['text-secondary'], scale: .55, speed: .12, phase: 2.8 },
 ]
 
 function WireObject({ object, motion, reduced }) {
@@ -36,7 +37,7 @@ function HeroParticles({ reduced, mobile }) {
   const positions = useMemo(() => { const values = new Float32Array(count * 3); for (let index = 0; index < count; index += 1) { values[index * 3] = ((index * 37) % 150) / 10 - 7.5; values[index * 3 + 1] = ((index * 61) % 80) / 10 - 4; values[index * 3 + 2] = -1 - ((index * 23) % 55) / 10 } return values }, [count])
   const ref = useRef(null)
   useFrame(({ clock }) => { if (!ref.current || reduced || document.hidden) return; ref.current.rotation.y = clock.elapsedTime * .004; ref.current.rotation.x = Math.sin(clock.elapsedTime * .08) * .015 })
-  return <points ref={ref}><bufferGeometry><bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} /></bufferGeometry><pointsMaterial color="#66d7e7" size={mobile ? .025 : .035} transparent opacity={.42} sizeAttenuation /></points>
+  return <points ref={ref}><bufferGeometry><bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} /></bufferGeometry><pointsMaterial color={sceneColors['text-secondary']} size={mobile ? .025 : .035} transparent opacity={.42} sizeAttenuation /></points>
 }
 
 function HeroScene() {

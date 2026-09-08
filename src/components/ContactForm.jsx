@@ -47,6 +47,6 @@ export default function ContactForm({ email }) {
     <label>Message<textarea required name="message" maxLength={5000} rows="4" placeholder="tell me about your idea..." disabled={status === 'sending'} /></label>
     <div hidden aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
     <button className="button button-primary" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Sending...' : 'Send transmission'} <Send size={15} /></button>
-    <small role="status" aria-live="polite">{status === 'sent' ? 'Thanks! Your message has been submitted.' : status === 'error' ? error : 'Have an idea? Send me a message.'} <a href={`mailto:${email}`}>Email me directly</a></small>
+    <small data-status={status} role="status" aria-live="polite">{status === 'sent' ? 'Thanks! Your message has been submitted.' : status === 'error' ? error : 'Have an idea? Send me a message.'} <a href={`mailto:${email}`}>Email me directly</a></small>
   </form>
 }

@@ -24,7 +24,7 @@ const HeroExperience = lazy(() => import('./components/HeroExperience'))
 const navItems = ['home', 'about', 'skills', 'projects', 'experience', 'contact']
 
 const reveal = { hidden: { opacity: 0, y: 28 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } } }
-const skillAccents = { 'React.js': '#61dafb', JavaScript: '#d6c66a', TypeScript: '#6f9ff2', HTML: '#d98568', CSS: '#6ba8df', 'Tailwind CSS': '#63cbd6', 'Node.js': '#7dbb78', 'Express.js': '#a9b5ba', Python: '#8aa9d8', Flask: '#b9d3d0', 'REST APIs': '#68c7c2', 'Socket.io': '#a78be6', MongoDB: '#7ebf88', PostgreSQL: '#7197ca', MySQL: '#7399c7', Redis: '#c17d7d', Git: '#c58b6c', GitHub: '#aa9bc7', Postman: '#d59467', 'VS Code': '#72a8e4' }
+const skillAccents = Object.fromEntries(Object.values(portfolioData.skills).flat().map((skill) => [skill, 'var(--red-primary)']))
 
 function SectionHeading({ eyebrow, title, intro }) {
   return <div className="section-heading"><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{intro && <p>{intro}</p>}</div>
@@ -88,7 +88,7 @@ function bindProjectLighting(card, enabled) {
   return () => { if (frame) cancelAnimationFrame(frame); card.removeEventListener('pointermove', move); card.removeEventListener('pointerleave', leave) }
 }
 
-function TiltCard({ children, className = '', accent = '#38e8e0' }) {
+function TiltCard({ children, className = '', accent = 'var(--red-primary)' }) {
   const { enableTilt } = usePerformanceMode()
   const cardRef = useRef(null)
   const frameRef = useRef(0)

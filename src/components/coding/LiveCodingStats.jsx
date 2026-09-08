@@ -32,7 +32,7 @@ function StatsCard({ name, profile, state, children }) {
       </>}
     </div>
     <ContributionTable platform={name} endpoint={name === 'GitHub' ? '/api/github-activity' : '/api/leetcode-activity'} />
-    <footer><span>SOURCE: {name.toUpperCase()}{name === 'GitHub' && ' API'}<br />STATUS: {state.status.toUpperCase()}</span>{profile.url && <a href={profile.url} target="_blank" rel="noreferrer">View profile <ArrowUpRight size={14} /></a>}</footer>
+    <footer><span data-status={state.status}>SOURCE: {name.toUpperCase()}{name === 'GitHub' && ' API'}<br />STATUS: {state.status.toUpperCase()}</span>{profile.url && <a href={profile.url} target="_blank" rel="noreferrer">View profile <ArrowUpRight size={14} /></a>}</footer>
     {state.data && <small className="coding-sync-time">LAST SYNC: <time dateTime={state.data.syncedAt}>{new Date(state.data.syncedAt).toLocaleString()}</time></small>}
   </article>
 }
