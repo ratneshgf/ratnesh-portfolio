@@ -610,3 +610,79 @@ nav button.active::after { background: var(--accent); box-shadow: 0 0 11px var(-
 .about-section::before, .skills-section::before, .projects-section::before,
 .experience-section::before, .coding-section::before, .contact-section::before,
 .achievements-section::before { color: var(--red-bright); }
+
+/* Portrait integration: full-width hero, with its height reserved in page flow. */
+.site-shell > .navbar { z-index: 9; }
+.hero { display: block; margin-top: -88px; }
+.hero-experience {
+  position: relative;
+  left: 50%;
+  right: auto;
+  width: 100vw;
+  margin-left: -50vw;
+  height: auto;
+  min-height: max(100svh, 720px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: 2vw;
+  padding: 150px 0 90px 6vw;
+}
+.hero-experience-content {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  min-width: 0;
+  transform: none;
+}
+.hero-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-portrait img {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: block;
+  width: min(84%, 150svh);
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: right center;
+  opacity: .86;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 99%, transparent), linear-gradient(180deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 99%, transparent), linear-gradient(180deg, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.hero-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(var(--black-rgb), .65), rgba(var(--black-rgb), .40) 30%, rgba(var(--black-rgb), .08) 55%, transparent 72%);
+}
+.hero-experience .hero-engineering-grid,
+.hero-experience .hero-atmosphere { z-index: 2; }
+.hero-experience .hero-wireframe-canvas {
+  z-index: 3;
+  opacity: .7;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+@media (max-width: 1100px) {
+  .hero-experience { padding-left: 4vw; column-gap: 2vw; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+}
+@media (max-width: 800px) {
+  .hero { margin-top: -70px; }
+  .hero-experience { grid-template-columns: minmax(0, 1fr); padding: 120px 20px calc(64px + min(100vw - 40px, 620px) * 2 / 3); row-gap: 32px; }
+  .hero-experience-content { top: auto; left: auto; width: 100%; transform: none; }
+  .hero-portrait img { top: auto; bottom: 0; width: 145%; max-width: none; transform: none; }
+  .hero-portrait::after { background: linear-gradient(180deg, rgba(var(--black-rgb), .20), rgba(var(--black-rgb), .08) 50%, transparent 70%); }
+  .hero-experience .hero-wireframe-canvas {
+    opacity: .8;
+  }
+}

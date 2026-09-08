@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { sceneColors } from '../theme.js'
 import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -49,6 +50,7 @@ function HeroScene() {
 }
 
 export default function HeroExperience({ onProjects, onContact }) {
+  const { reducedMotion } = usePerformanceMode()
   return <section className="hero-experience" aria-label="Ratnesh Singh Chauhan introduction">
     <div className="hero-engineering-grid" />
     <div className="hero-atmosphere" />
@@ -60,6 +62,14 @@ export default function HeroExperience({ onProjects, onContact }) {
       <p className="hero-statement">Engineering scalable full-stack applications and modern digital experiences with clean, reliable code.</p>
       <div className="hero-experience-actions"><button type="button" className="hero-enter" onClick={onProjects}>&gt;_ ENTER THE LAB <ChevronDown size={16} /></button><button type="button" className="hero-contact" onClick={onContact}><Mail size={15} /> INITIATE CONTACT</button></div>
     </div>
+    <motion.div className="hero-portrait"
+      initial={reducedMotion ? false : { opacity: 0, x: 30, scale: .98 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      transition={{ duration: reducedMotion ? 0 : 1, ease: [.22, 1, .36, 1] }}>
+      <img src="/images/chauhan.png" width="1536" height="1024"
+        alt="Ratnesh Singh Chauhan - Full Stack Developer"
+        decoding="async" fetchPriority="high" />
+    </motion.div>
     <div className="hero-coordinate hero-coordinate-top">SYS_01 / 2026</div><div className="hero-coordinate hero-coordinate-bottom">BUILD_01 / MERN + PYTHON</div>
   </section>
 }
