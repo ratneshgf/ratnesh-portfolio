@@ -1,7 +1,7 @@
 .coding-section:has(.live-coding-stats) { row-gap: 64px; }
 .live-coding-stats { grid-column: 1 / -1; min-width: 0; display: grid; gap: 18px; }
 .coding-stat-card { --activity-color: #30cf50; --activity-rgb: 48,207,80; min-width: 0; padding: 30px; border: 1px solid var(--border); background: repeating-linear-gradient(90deg, transparent 0 39px, #ffffff02 40px), repeating-linear-gradient(0deg, transparent 0 39px, #ffffff02 40px), #050605; }
-.platform-leetcode { --activity-color: #ffa600; --activity-rgb: 255,166,0; }
+.platform-leetcode { --activity-color: #30cf50; --activity-rgb: 48,207,80; }
 .platform-heading, .activity-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .platform-heading { padding-bottom: 24px; margin-bottom: 30px; border-bottom: 1px solid var(--border); }
 .platform-heading h4, .coding-languages h5, .activity-heading h5 { margin: 0; font: 10px/1.7 var(--mono); letter-spacing: 1.4px; text-transform: uppercase; }
