@@ -1,7 +1,10 @@
-.project-wallet { max-width: 850px; margin: 70px auto 0; }
-.wallet-stack { position: relative; height: 790px; perspective: 1400px; margin: 0 30px 0 0; }
-.wallet-layer { position: absolute; top: 220px; width: 100%; transform-origin: center top; }
-.wallet-card { display: block; width: 100%; padding: 0; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); overflow: hidden; cursor: pointer; box-shadow: 0 18px 50px #0009; touch-action: pan-y; }
+.project-wallet { max-width: 1100px; margin: 70px auto 0; }
+.wallet-viewport { position: relative; height: 700px; margin: 0 30px 0 0; border-radius: 14px; touch-action: pan-y; }
+.wallet-slide { position: absolute; top: var(--slide-top); left: var(--slide-left); width: var(--slide-width); height: var(--slide-height); pointer-events: auto; transform: translateX(-50%); opacity: .92; transition: top .46s cubic-bezier(.22, 1, .36, 1), left .46s cubic-bezier(.22, 1, .36, 1), width .46s cubic-bezier(.22, 1, .36, 1), height .46s cubic-bezier(.22, 1, .36, 1), opacity .3s ease; will-change: left, width, height; }
+.wallet-slide[aria-hidden="false"] { z-index: 3; opacity: 1; }
+.wallet-slide[aria-hidden="true"] { z-index: 2; }
+.wallet-slide.is-hidden { opacity: 0; pointer-events: none; }
+.wallet-card { display: block; width: 100%; height: 100%; padding: 0; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); overflow: hidden; cursor: pointer; box-shadow: 0 18px 50px #0009; touch-action: pan-y; }
 .wallet-card { position: relative; isolation: isolate; transition: border-color .2s, box-shadow .2s; }
 .wallet-card::after { content: ''; position: absolute; inset: 0; z-index: 5; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .2s; padding: 2px; background: radial-gradient(260px circle at var(--wallet-light-x, 50%) var(--wallet-light-y, 50%), var(--red-primary), var(--red-deep) 35%, transparent 100%); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; }
 @media (hover: hover) and (pointer: fine) {
@@ -22,8 +25,6 @@
 .wallet-title { font-size: 25px; font-weight: 500; }
 .wallet-description { color: var(--muted); font-size: 14px; line-height: 1.7; }
 .wallet-open { display: flex; align-items: center; gap: 10px; color: var(--red-bright); font: 11px monospace; margin-top: 4px; }
-.is-rear .wallet-content { visibility: hidden; }
-.is-rear .wallet-card { background: var(--bg); }
 .wallet-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; font: 11px monospace; color: var(--muted); padding-top: 24px; border-top: 1px solid var(--line); }
 .wallet-controls > div { display: flex; gap: 8px; }
 .wallet-controls button { display: flex; align-items: center; gap: 9px; padding: 12px 14px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
@@ -34,11 +35,14 @@
 .wallet-dossier > .tech-tags { margin: 20px 0; }
 @media (max-width: 800px) {
   .project-wallet { margin-top: 45px; }
-  .wallet-stack { height: 835px; margin-right: 23px; }
+  .wallet-viewport { height: 690px; margin-right: 23px; }
+  .wallet-slide[aria-hidden="false"] { left: 50%; width: 86%; }
+  .wallet-slide[aria-hidden="true"] { width: 28%; }
   .wallet-card-label { gap: 10px; padding: 12px 14px; }
   .wallet-card-label strong { font-size: 12px; }
   .wallet-card-label small { display: none; }
   .wallet-card .project-art { height: 220px; }
+  .wallet-card { min-height: 0; }
   .wallet-content { padding: 20px 16px; }
   .wallet-title { font-size: 21px; }
   .wallet-current { display: none; }
